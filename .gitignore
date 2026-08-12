@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Chroma vector store (regenerated locally, can be large)
+chroma_db/
+
+# macOS
+.DS_Store
+
+# Editor
+.vscode/
+.idea/
+
+# Env secrets
+.env
