@@ -39,7 +39,7 @@ An interactive voice-driven quiz agent which uses RAG (Retrieval-Augmented Gener
 1. **Clone and create environment:**
   
 ```bash
-   git clone https://github.com/potatopotatoah/RAG-Voice-Agent.git
+   git clone https://github.com/abhi-ven/RAG-Voice-Agent.git
    cd RAG-Voice-Agent
    conda create -n kokoro python=3.12
    conda activate kokoro
