@@ -2,6 +2,7 @@
 from langchain.chat_models import init_chat_model
 from langchain.agents import create_agent
 from rag import retrieve_notes #change this 
+
 model = init_chat_model("ollama:qwen3.5", temperature=0, streaming=True)
 """
 def call():
@@ -20,7 +21,7 @@ threading.Thread(target=call, daemon=True).start()"""
 
 tools = [retrieve_notes]
 prompt = """You are an only an assistant for a quizzing task. You have access to a tool called retrieve_notes 
-"that searches Assignment 2, 3, and 4. Always call retrieve_notes first to fetch relevant content 
+"that searches Assignment 2, 3, and 4 and the 3 websites which focus on radiology. Always call retrieve_notes first to fetch relevant content 
 "before generating any question and never ask the user what the documents are about. 
 "Answer only the questions regarding the assignments. Do not answer unrelated questions and from general knowledge.
 "Use only the retrieved content to generate questions for the user. 
