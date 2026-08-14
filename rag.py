@@ -5,6 +5,7 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_chroma import Chroma
 from langchain_ollama import OllamaEmbeddings
 from langchain.tools import tool
+from langchain_community.document_loaders import WebBaseLoader
 import os
 
 #backend 
@@ -52,24 +53,35 @@ else:
         "Assignment 3.pdf",
         "Assignment 4.pdf"
     ]
-    all_files = []
+    all_documents= []
     for i in files:
         loader = PyPDFLoader(i)
-        all_files.extend(loader.load())
+        all_documents.extend(loader.load())
 
-    textsplit = RecursiveCharacterTextSplitter(
-        chunk_size=1000,
-        chunk_overlap=200
+    #for website links 
+    websites= [
+        "https://pubs.rsna.org/doi/10.1148/radiol.260264",
+        "https://pubs.rsna.org/doi/10.1148/radiol.253979",
+        "https://pubs.rsna.org/doi/10.1148/radiol.253711"
+    ]
+
+    for j in websites:
+        loader2= WebBaseLoader(j)
+        all_documents.extend(loader2.load())
+
+    textsplit= RecursiveCharacterTextSplitter(
+        chunk_size= 1000, 
+        chunk_overlap= 200
     )
-    chunks = textsplit.split_documents(all_files)
-    vectorstore = Chroma.from_documents(
-        documents=chunks, embedding=embeddings, persist_directory=directory
+    chunks= textsplit.split_documents(all_documents)
+    vectorstore= Chroma.from_documents(
+        documents= chunks, embedding= embeddings, persist_directory= directory
     )
 
 retriever = vectorstore.as_retriever()
 
 @tool
 def retrieve_notes(query: str) -> str:
-    """Search and return relevant information from Assignment 2,3 and 4"""
+    """Search and return relevant information from Assignment 2,3 and 4 and the websites linked"""
     info = retriever.invoke(query)
     return "\n\n".join([j.page_content for j in info])
